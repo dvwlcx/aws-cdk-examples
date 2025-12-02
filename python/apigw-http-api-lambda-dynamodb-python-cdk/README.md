@@ -23,6 +23,25 @@ This stack implements AWS Well-Architected Framework best practices for monitori
 
 After deployment, view traces in the [AWS X-Ray Console](https://console.aws.amazon.com/xray/) to analyze performance and debug issues.
 
+## Security and Compliance
+
+This stack implements AWS Well-Architected Framework best practices for security logging and compliance:
+
+### Service and Application Logging (SEC04-BP01)
+- **VPC Flow Logs**: Network traffic monitoring for security investigations
+- **API Gateway Access Logs**: Comprehensive request auditing with caller identity, source IP, and request details
+- **Lambda Function Logs**: Application logs with 1-year retention including security-relevant events (request ID, source IP, user agent)
+- **DynamoDB Point-in-Time Recovery**: Continuous backup for data protection and forensic analysis
+
+### Log Retention
+All logs are retained for 1 year to meet compliance requirements and support security investigations.
+
+### Prerequisites
+- **AWS CloudTrail** should be enabled at the account or organization level to capture AWS API activity
+- Ensure appropriate IAM permissions for log delivery to CloudWatch Logs (automatically handled by CDK)
+
+After deployment, logs can be queried in [CloudWatch Logs Insights](https://console.aws.amazon.com/cloudwatch/home#logsV2:logs-insights) for security analysis and troubleshooting.
+
 ## Setup
 
 The `cdk.json` file tells the CDK Toolkit how to execute your app.
@@ -106,6 +125,12 @@ After making API requests, navigate to the AWS X-Ray console to view end-to-end 
 - Lambda function execution (including cold starts)
 - DynamoDB operation latency
 - Complete request timeline and service map
+
+### Viewing Logs
+Access logs in CloudWatch Logs console:
+- **VPC Flow Logs**: Network traffic patterns and connection details
+- **API Gateway Access Logs**: API request details including caller IP, method, path, and response status
+- **Lambda Function Logs**: Application logs with request context and operation results
 
 ## Cleanup 
 Run below script to delete AWS resources created by this sample stack.
