@@ -8,6 +8,21 @@ Creates an [AWS Lambda](https://aws.amazon.com/lambda/) function writing to [Ama
 
 ![architecture](docs/architecture.png)
 
+## Monitoring and Observability
+
+This stack implements AWS Well-Architected Framework best practices for monitoring and observability:
+
+### End-to-End Tracing (REL06-BP07)
+- **AWS X-Ray Tracing**: Enabled on API Gateway and Lambda for complete request tracing
+- **DynamoDB Instrumentation**: Lambda function uses X-Ray SDK to trace DynamoDB operations
+- **Service Map**: Visualize request flows through API Gateway → Lambda → DynamoDB in X-Ray console
+
+### CloudWatch Alarms
+- **Lambda Error Alarm**: Alerts when function errors occur
+- **Lambda Throttle Alarm**: Alerts when function is throttled
+
+After deployment, view traces in the [AWS X-Ray Console](https://console.aws.amazon.com/xray/) to analyze performance and debug issues.
+
 ## Setup
 
 The `cdk.json` file tells the CDK Toolkit how to execute your app.
@@ -84,6 +99,13 @@ You should get below response
 ```json
 {"message": "Successfully inserted data!"}
 ```
+
+### Viewing Traces
+After making API requests, navigate to the AWS X-Ray console to view end-to-end traces showing:
+- API Gateway request processing time
+- Lambda function execution (including cold starts)
+- DynamoDB operation latency
+- Complete request timeline and service map
 
 ## Cleanup 
 Run below script to delete AWS resources created by this sample stack.
